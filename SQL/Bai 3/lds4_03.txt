@@ -1,0 +1,123 @@
+create table emp
+(
+  id int primary key,
+  name varchar(50)  
+);    
+
+insert into emp values(1,'Tom');
+insert into emp values(2,'Jack');
+select * from emp;
+insert into emp values(2,'Alice');
+
+create table emp
+(
+  id int,
+  name varchar(50),
+  constraint pk_emp primary key(id)  
+);   
+-- DK(masv,mamh)
+-- A01, 01; A02, 01; A01, 02; A01, 01
+create table DK
+(
+  masv char(30),
+  mamh char(2),
+  primary key(masv,mamh)  
+);   
+create table emp
+(
+  id int,
+  name varchar(50)
+);   
+alter table emp
+add constraint pk_emp primary key(id);
+create table dep(id int primary key, dep_name varchar(50)); -- bang CHA
+create table emp(id int primary key, name varchar(50), depid int); -- bang CON
+alter table emp
+add constraint fk_dep_depid foreign key(depid) references dep(id);
+-- create table dep(id int primary key, dep_name varchar(50)); -- bang CHA
+-- create table emp(id int primary key, name varchar(50), depid int); -- bang CON
+/*
+alter table emp
+drop constraint fk_dep_depid;
+*/
+/*
+alter table emp
+add constraint fk_dep_depid foreign key(depid) references dep(id);
+*/
+-- insert into dep values(1,'Sales');
+-- insert into dep values(2,'It');
+-- insert into emp values(1,'Tom',1);
+-- insert into emp values(2,'Alice',10);
+/*
+select *
+from medals
+where Medal='Silver' and (Year=2012 or Year=2016);
+*/
+select *
+from medals
+where Medal='Silver' and Year in (2012,2016);
+select EMPLOYEE_ID, concat(FIRST_NAME, ' ', LAST_NAME) as NAME, 
+	date_format(HIRE_DATE,'%d/%m/%Y') as HIREDATE, concat('$',format(SALARY,2)) as SAL, SALARY+300 as BONUS
+from employees;
+select EMPLOYEE_ID, FIRST_NAME
+from employees
+where FIRST_NAME like 'K%';
+select EMPLOYEE_ID, FIRST_NAME
+from employees
+where FIRST_NAME like '%n';
+-- ten co chua an
+select EMPLOYEE_ID, FIRST_NAME
+from employees
+where FIRST_NAME like '%an%';
+select EMPLOYEE_ID, FIRST_NAME
+from employees
+where FIRST_NAME like '_a%es';
+select count(*), sum(salary), avg(salary), max(salary), min(salary), STDDEV(salary)
+from employees;
+select count(*), sum(salary), avg(salary), max(salary), min(salary), STDDEV(salary)
+from employees
+where DEPARTMENT_ID=50;
+select DEPARTMENT_ID, count(*) as dem, sum(salary) as tong_luong
+from employees
+where DEPARTMENT_ID is not null
+group by department_id;
+select DEPARTMENT_ID, count(*) as dem, sum(salary) as tong_luong
+from employees
+where DEPARTMENT_ID is not null
+group by department_id
+order by tong_luong desc;
+select DEPARTMENT_ID, count(*) as dem, sum(salary) as tong_luong
+from employees
+where DEPARTMENT_ID is not null
+group by department_id
+order by tong_luong desc
+limit 5;
+SELECT CountryCode, COUNT(*) as so_huy_chuong
+FROM medals
+WHERE Year=2012 and CountryCode!=''
+GROUP BY CountryCode;
+SELECT Medal, COUNT(*) as so_huy_chuong
+FROM medals
+WHERE Year=2012 and CountryCode!=''
+GROUP BY  Medal;
+SELECT Gender, COUNT(*) as so_huy_chuong_vang
+FROM medals
+WHERE Year=2012 and Medal='Gold'
+GROUP BY  Gender;
+SELECT CountryCode, COUNT(*) as so_huy_chuong
+FROM medals
+WHERE Year=2012 and CountryCode!=''
+GROUP BY CountryCode
+HAVING COUNT(*)>=50
+ORDER BY so_huy_chuong DESC;
+SELECT CountryCode, Gender, COUNT(*) as so_huy_chuong_vang
+FROM medals
+WHERE Year=2012 and Medal='Gold' and CountryCode!=''
+GROUP BY CountryCode, Gender
+ORDER BY CountryCode;
+-- dem so nhan vien vao lam theo tung nam
+select year(hire_date), count(*)
+from employees
+group by year(hire_date);
+
+

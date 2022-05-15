@@ -1,0 +1,107 @@
+-- truy van con long nhau (nested sub query)
+-- select * from employees limit 1;
+-- select * from departments limit 1;
+-- select * from locations;
+-- cho biet cac nhan vien lam viec o tp Toronto
+select EMPLOYEE_ID, FIRST_NAME, SALARY, DEPARTMENT_ID
+from employees
+where DEPARTMENT_ID in (select DEPARTMENT_ID from departments where location_id in (select location_id from locations where city='Toronto'));
+-- nested select
+-- liet ke cac nhan vien co luong > trung binh luong
+SELECT EMPLOYEE_ID, FIRST_NAME, SALARY, (SELECT ROUND(AVG(SALARY),2) FROM employees) as avg_sal
+FROM employees
+WHERE SALARY> (SELECT AVG(SALARY) FROM employees);
+-- nhieu truy van con
+-- cho biet cac nhan vien lam cung cong viec voi nhan vien 105 nhung co luong lon hon 105
+select EMPLOYEE_ID, FIRST_NAME, JOB_ID, SALARY,
+	(select job_id from employees where employee_id=105), (select salary from employees where employee_id=105)
+from employees
+where job_id = (select job_id from employees where employee_id=105) and 
+      salary > (select salary from employees where employee_id=105);
+      
+-- toan tu in va not in
+-- cho biet danh sach cac nhan vien lam quan ly
+select *
+from employees
+where EMPLOYEE_ID in
+(
+    select DISTINCT MANAGER_ID
+    from employees
+    where MANAGER_ID is not null
+);    
+-- cho biet danh sach cac nhan vien khong lam quan ly
+select *
+from employees
+where EMPLOYEE_ID not in
+(
+    select DISTINCT MANAGER_ID
+    from employees
+    where MANAGER_ID is not null
+);    
+-- join, inner join (ket bang)
+select e.EMPLOYEE_ID, e.FIRST_NAME, e.SALARY, e.DEPARTMENT_ID, d.DEPARTMENT_NAME
+from employees e, departments d
+where e.DEPARTMENT_ID=d.DEPARTMENT_ID
+order by e.DEPARTMENT_ID;
+-- join, inner join (ket bang)
+select e.EMPLOYEE_ID, e.FIRST_NAME, e.SALARY, e.DEPARTMENT_ID, d.DEPARTMENT_NAME
+from employees e inner join departments d on e.DEPARTMENT_ID=d.DEPARTMENT_ID
+order by e.DEPARTMENT_ID;
+-- join, inner join (ket bang)
+select e.EMPLOYEE_ID, e.FIRST_NAME, e.SALARY, e.DEPARTMENT_ID, d.DEPARTMENT_NAME, d.LOCATION_ID, l.CITY
+from employees e join departments d on e.DEPARTMENT_ID=d.DEPARTMENT_ID
+	join locations l on l.LOCATION_ID=d.LOCATION_ID
+order by e.DEPARTMENT_ID;
+-- join, inner join (ket bang)
+select e.EMPLOYEE_ID, e.FIRST_NAME, e.SALARY, e.DEPARTMENT_ID, d.DEPARTMENT_NAME, d.LOCATION_ID, l.CITY
+from employees e join departments d on e.DEPARTMENT_ID=d.DEPARTMENT_ID
+	join locations l on l.LOCATION_ID=d.LOCATION_ID
+where l.CITY='Toronto'    
+order by e.DEPARTMENT_ID;
+-- outer join (ket uu tien): left, right, full
+select e.EMPLOYEE_ID, e.FIRST_NAME, e.SALARY, e.DEPARTMENT_ID, d.DEPARTMENT_NAME
+from employees e left join departments d on e.DEPARTMENT_ID=d.DEPARTMENT_ID
+order by e.DEPARTMENT_ID;
+select e.DEPARTMENT_ID, d.DEPARTMENT_NAME, sum(e.salary) as sum_sal
+from employees e join departments d on e.DEPARTMENT_ID=d.DEPARTMENT_ID
+group by e.DEPARTMENT_ID, d.DEPARTMENT_NAME;
+-- tong luong, dem so nhan vien
+select d.DEPARTMENT_ID, d.DEPARTMENT_NAME, 
+	ifnull(sum(e.salary),0) as sum_sal, 
+    count(e.EMPLOYEE_ID) as count_emp
+from employees e right join departments d on e.DEPARTMENT_ID=d.DEPARTMENT_ID
+group by d.DEPARTMENT_ID, d.DEPARTMENT_NAME;
+SELECT 'Customer' AS Type, Concat(Concat(FirstName, ' '), LastName) 
+               AS ContactName, City, Country, Phone
+FROM Customers
+UNION ALL
+SELECT 'Supplier', ContactName, City, Country, Phone
+FROM Suppliers;
+select EMPLOYEE_ID, JOB_ID, DEPARTMENT_ID, 'Hien tai' as NOTE from employees where EMPLOYEE_ID=101
+UNION ALL
+select EMPLOYEE_ID, JOB_ID, DEPARTMENT_ID, 'Qua khu' from job_history where EMPLOYEE_ID=101;
+
+select *
+from employees e full join departments d on e.DEPARTMENT_ID=d.DEPARTMENT_ID;
+
+select Athlete, Gender, Medal, Discipline
+from medals
+where Year=2012 and CountryCode='USA' and REGEXP_like(Athlete,'^K'); -- ^ bat dau chuoi
+select Athlete, Gender, Medal, Discipline
+from medals
+where Year=2012 and CountryCode='USA' and REGEXP_like(Athlete,'an$'); -- $ ket thuc chuoi
+select Athlete, Gender, Medal, Discipline
+from medals
+where Year=2012 and CountryCode='USA' and REGEXP_like(Discipline,'^......$'); 
+-- . dai dien dung 1 ky tu
+select Athlete, Gender, Medal, Discipline
+from medals
+where Year=2012 and CountryCode='USA' and REGEXP_like(Discipline,'^.{6}$'); 
+-- . dai dien dung 1 ky tu
+select Athlete, Gender, Medal, Discipline
+from medals
+where Year=2012 and CountryCode='USA' and REGEXP_like(Athlete,'^(K|B)'); 
+-- tim cac vdv ten bat dau la chu K va ket thuc la an
+select Athlete, Gender, Medal, Discipline
+from medals
+where Year=2012 and CountryCode='USA' and REGEXP_like(Athlete,'^K.*an$'); -- * xuat hien nhieu lan

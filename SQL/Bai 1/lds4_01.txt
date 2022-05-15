@@ -1,0 +1,60 @@
+﻿WAMP --> windows
+MAMP --> macOS
+LAMP --> linux
+
+
+Apache
+MySQL
+php
+
+
+cài các vc++
+uninstall wamp
+install wamp
+
+
+*DDL
+create database testdb;
+drop database testdb;
+
+
+create table pets
+(
+  id int primary key,
+  name varchar(50),
+  age int  
+);    
+insert into pets values(1,'Tiger',3);
+insert into pets values(2,'Monkey',1);
+insert into pets values(3,'Dog',2);
+select * from pets;
+
+
+*IBM DB2
+- đăng ký
+- đăng nhập
+- create resource db2
+- London Lite
+- Go to UI
+
+
+*MySQL
+- import employees.csv --> table employees
+select *
+from employees;
+select EMPLOYEE_ID, FIRST_NAME, LAST_NAME, SALARY, HIRE_DATE, DEPARTMENT_ID
+from employees;
+select EMPLOYEE_ID, FIRST_NAME, LAST_NAME, SALARY, HIRE_DATE, DEPARTMENT_ID
+from employees
+where DEPARTMENT_ID=90;
+select EMPLOYEE_ID, FIRST_NAME, LAST_NAME, SALARY, HIRE_DATE, DEPARTMENT_ID
+from employees
+where DEPARTMENT_ID=80 and SALARY>=10000;
+select EMPLOYEE_ID, FIRST_NAME, LAST_NAME, SALARY, HIRE_DATE, DEPARTMENT_ID
+from employees
+where DEPARTMENT_ID=80 and SALARY>=10000
+order by SALARY;
+select EMPLOYEE_ID, FIRST_NAME, LAST_NAME, SALARY, HIRE_DATE, DEPARTMENT_ID
+from employees
+where DEPARTMENT_ID=80 and SALARY>=10000
+order by SALARY desc;

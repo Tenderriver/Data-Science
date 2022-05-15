@@ -1,0 +1,110 @@
+create table country
+(
+    id int,
+    countrycode char(3),
+    countryname varchar(60)
+);    
+create table country
+(
+    id int primary key,
+    countrycode char(3),
+    countryname varchar(60)
+);    
+insert into country values(1,'VNA', 'Viet Nam');
+insert into country values(2,'USA', 'The united state of american');
+
+create table country
+(
+    id int primary key AUTO_INCREMENT,
+    countrycode char(3),
+    countryname varchar(60)
+);    
+insert into country(countrycode,countryname) values('VNA', 'Viet Nam');
+insert into country(countrycode,countryname) values('USA', 'The united state of american');
+delete from country;
+drop table country;
+select *
+from country
+where CountryCode='USA';
+select id, Athlete, Sport, CountryCode, Medal, Gender
+from medals
+where Year=2012 and Medal='Gold' and Gender='Men';
+select id, Athlete, Sport, CountryCode, Medal, Gender
+from medals
+where Year=2012 and Medal='Gold' and Gender='Men'
+order by Athlete desc;
+-- liet ke cac nu van dong vien dat huy chuong bac cua the van hoi 2012, cua nuoc My
+-- sap tang theo mon the thao (sport)
+select *
+from medals
+where Year=2012 and Medal='Silver' and Gender='Women' and CountryCode='USA'
+order by Sport;
+select *
+from medals
+where Year between 2012 and 2014;
+select *
+from medals
+where CountryCode in ('CHN','USA');
+select count(*)
+from medals;
+select count(*)
+from medals
+where Year=2012 and Medal='Gold'; -- 636
+--
+select count(*)
+from medals
+where Year=2012 and Medal='Silver'; -- 633
+--
+select count(*)
+from medals
+where Year=2012 and Medal='Bronze'; -- 680
+select distinct CountryCode
+from medals
+where Medal='Gold' and Year=2012 and CountryCode!='' -- empty
+order by CountryCode;
+select distinct CountryCode
+from medals
+where Medal='Gold' and Year=2012 and CountryCode!='' -- empty
+order by CountryCode
+limit 10;
+
+select *
+from employees
+where SALARY BETWEEN 5000 and 7000
+order by SALARY desc;
+
+select DEPARTMENT_ID, FIRST_NAME, SALARY
+from employees
+where DEPARTMENT_ID in (50,70,90)
+order by DEPARTMENT_ID;
+select *
+from employees
+order by SALARY desc
+limit 1;
+
+select *
+from employees
+order by SALARY
+limit 1;
+-- cho biet cac nhan vien co luong lon nhat, nho nhat cua phong 80
+select *
+from employees
+where DEPARTMENT_ID=80
+order by SALARY desc
+limit 1;
+
+select *
+from employees
+where DEPARTMENT_ID=80
+order by SALARY
+limit 1;
+update country
+set CountryName='The United State of American'
+where CountryCode='USA';
+-- doi ten cac quoc gia sang chu HOA
+update country
+set CountryName = upper(CountryName);
+
+
+
+
